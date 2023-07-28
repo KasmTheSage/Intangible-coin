@@ -3,19 +3,18 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true
+        required: [true, "Please add a first name."]
     },
     middleName: {
         type: String,
-        required: false
     },
     lastName: {
         type: String,
-        required: true
+        required: [true, "Please add a last name"]
     },
     dateOfBirth: {
         type: Date,
-        required: true
+        required: [true, "Please add date of birth"]
     },
     email: {
         type: String,
@@ -33,6 +32,6 @@ const UserSchema = new mongoose.Schema({
         ],
         required: true
     }
-});
+}, { timestamps: true});
 
 module.exports = User = mongoose.model("user", UserSchema);
