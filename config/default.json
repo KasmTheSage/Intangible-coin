@@ -1,3 +1,4 @@
 {
-    "mongoURI":"mongodb+srv://sagehigh:brisingrdragon21@intangiblecoinprototype.aqlynfq.mongodb.net/?retryWrites=true&w=majority"
+    "mongoURI":"mongodb+srv://sagehigh:brisingrdragon21@intangiblecoinprototype.aqlynfq.mongodb.net/?retryWrites=true&w=majority",
+    "jwtSecret": "brisingrdragon21"
 }
