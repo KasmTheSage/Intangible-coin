@@ -5,10 +5,6 @@ const ProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
     },
-    coinBalance: {
-        type: Number,
-        required: true
-    },
     transactionHistory: {
         type: [{}],
         required: true
@@ -27,3 +23,5 @@ const ProfileSchema = new mongoose.Schema({
     },
     contacts: [{}]
 });
+
+module.exports = Profile = mongoose.model("profile", ProfileSchema);

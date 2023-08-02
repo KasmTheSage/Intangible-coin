@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         required: [true, "Please add date of birth"]
     },
+    coinBalance: {
+        type: Number,
+        required: true
+    },
     email: {
         type: String,
         match: [
