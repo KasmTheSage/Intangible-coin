@@ -5,17 +5,14 @@ const ProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
     },
-    transactionHistory: {
-        type: [{}],
-        required: true
-    },
+    transactionHistory: [{}],
     feedback: {
         type: Boolean,
         required: true
     },
     visibleInfo: {
         name: Boolean,
-        dateOfBirth: Boolean,
+        dob: Boolean,
         totalBalance: Boolean,
         activityHistory: Boolean,
         dataForage: Boolean,

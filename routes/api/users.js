@@ -5,11 +5,6 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const User = require("../../models/User");
 
-// Function to add 1 to coin for every hour
-function incrementCoin(coin) {
-    coin += 1;
-  }
-
 // @route   POST api/users
 // @desc    Register user
 // @access  Public
@@ -49,9 +44,6 @@ router.post("/", async (req, res) => {
 
         // Add the hours lived to the coin value
         user.coinBalance += hoursLived;
-
-        // Add 1 to coin balance every hour
-        setInterval(incrementCoin(user.coinBalance), 60 * 60 * 1000);
 
         /*const salt = await bcrypt.genSalt(10);
 
