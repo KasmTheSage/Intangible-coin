@@ -183,7 +183,7 @@ router.post("/transfer/:user_id", auth, async (req, res) => {
         reason: reason,
         senderId: "anonymous",
         receiverId: req.user.id,
-        timestamp: Date.now
+        timestamp: new Date.now
     }
 
     try {

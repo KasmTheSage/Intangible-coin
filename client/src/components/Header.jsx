@@ -1,19 +1,26 @@
 import React from 'react';
-import { Container, Navbar, Nav } from 'react-bootstrap';
+import {Container, Navbar, Nav} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 const Header = () => {
   return (
     <header>
       <Navbar bg="light" variant="light" expand="md" collapseOnSelect>
         <Container>
-          <Navbar.Brand href="/" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
-            Intangible Coin
-          </Navbar.Brand>
+          <LinkContainer to="/">
+            <Navbar.Brand style={{fontWeight: 'bold', fontSize: '1.5rem'}}>
+              Intangible Coin
+            </Navbar.Brand>
+          </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="/about" style={{ marginRight: '1.5rem' }}>About</Nav.Link>
-              <Nav.Link href="/login" style={{ fontWeight: 'bold' }}>Sign In</Nav.Link>
+              <LinkContainer to="/about">
+                <Nav.Link style={{marginRight: '1.5rem'}}>About</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/login">
+                <Nav.Link style={{fontWeight: 'bold'}}>Sign In</Nav.Link>
+              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Container>

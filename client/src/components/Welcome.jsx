@@ -1,5 +1,7 @@
 import React from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import Button from 'react-bootstrap/Button';
 
 const Welcome = () => {
   const columnStyle = {
@@ -13,16 +15,15 @@ const Welcome = () => {
     background: 'linear-gradient(135deg, #667eea, #764ba2)',
     color: '#fff',
   };
-
   const buttonStyle = {
     marginTop: '1.5rem',
-    width: '12rem',
+    width: '14rem',
+    height: '3rem',
     fontWeight: 'bold',
     letterSpacing: '1px',
-    fontSize: '1.1rem',
+    fontSize: '1.2rem',
     borderRadius: '5px',
   };
-
   return (
     <Row>
       <Col style={columnStyle}>
@@ -30,7 +31,9 @@ const Welcome = () => {
           <h2 style={{ marginBottom: '2rem', fontSize: '2.5rem', fontWeight: 'bold' }}>
             New User? Register Here
           </h2>
-          <Button variant="light" style={buttonStyle}>Sign up</Button>
+          <LinkContainer to="/signup">
+            <Button variant="light" style={buttonStyle}>Sign up</Button>
+          </LinkContainer>
         </div>
       </Col>
       <Col style={{ ...columnStyle, background: '#fff', color: '#333' }}>
@@ -38,7 +41,9 @@ const Welcome = () => {
           <h2 style={{ marginBottom: '2rem', fontSize: '2.5rem', fontWeight: 'bold' }}>
             Existing User? Login Here
           </h2>
-          <Button variant="primary" style={buttonStyle}>Log in</Button>
+          <LinkContainer to="/login">
+            <Button variant="primary" style={buttonStyle}>Log in</Button>
+          </LinkContainer>
         </div>
       </Col>
     </Row>
