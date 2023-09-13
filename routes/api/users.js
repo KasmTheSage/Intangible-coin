@@ -1,5 +1,4 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const config = require("config");
@@ -45,12 +44,6 @@ router.post("/", async (req, res) => {
         // Add the hours lived to the coin value
         user.coinBalance += hoursLived;
 
-        /*const salt = await bcrypt.genSalt(10);
-
-        user.password = await bcrypt.hash(password, salt);
-
-        console.log(user.password);*/
-
         await user.save();
 
         const payload = {
@@ -64,10 +57,6 @@ router.post("/", async (req, res) => {
             res.json({ token, data: user });
         });
 
-        /*res.status(200).json({
-            success: true,
-            data: user
-        });*/
     } catch (err) {
         res.status(400).json({ message: err.message});
     }

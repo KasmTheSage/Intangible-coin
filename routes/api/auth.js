@@ -26,6 +26,9 @@ router.post("/", async (req, res) => {
         email,
         password
     } = req.body;
+
+    console.log(email, password);
+
     try {
         let user = await User.findOne({ email });
 
