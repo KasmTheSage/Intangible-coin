@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion, Card, Button } from 'react-bootstrap';
-import axios from 'axios';
+//import axios from 'axios';
 
 const ProfileScreen = () => {
   const [transactionHistory, setTransactionHistory] = useState([]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const res = await axios.get('/api/profile/me');
@@ -17,7 +17,7 @@ const ProfileScreen = () => {
     };
 
     fetchProfileData();
-  }, []);
+  }, []);*/
 
   return (
     <div>

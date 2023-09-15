@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAlert } from '../actions/alert';
-import axios from 'axios';
+import { login } from '../actions/auth';
 import PropTypes from 'prop-types';
 
-const Login = ({ setAlert }) => {
+const Login = ({ setAlert, login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -15,32 +15,21 @@ const Login = ({ setAlert }) => {
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = async e => {
     e.preventDefault();
 
-    const user = {
-        email,
-        password
-    };
-
     try {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-        const body = JSON.stringify(user);
-
-        const res = await axios.post('/api/auth', body, config);
-        console.log(res.data);
-        //navigate('/profile');
+        login(email, password);
     } catch (err) {
         const errmessage = err.response.data.message;
         setAlert(errmessage, 'danger');
     }
+  }
+
+  if (isAuthenticated) {
+    navigate('/profile');
   }
 
   return (
@@ -76,7 +65,13 @@ const Login = ({ setAlert }) => {
 };
 
 Login.propTypes = {
-    setAlert: PropTypes.func.isRequired
+    setAlert: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
 };
 
-export default connect(null, { setAlert })(Login);
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { setAlert, login })(Login);

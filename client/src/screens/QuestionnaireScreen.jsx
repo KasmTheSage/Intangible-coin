@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 const Questionnaire = () => {
   const [formData, setFormData] = useState({
@@ -39,14 +38,7 @@ const Questionnaire = () => {
     console.log(formData);
 
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      const res = await axios.post('/api/profile', formData, config);
-      console.log(res.data);
+      
     } catch (err) {
       console.log(err.response.data);
     }
