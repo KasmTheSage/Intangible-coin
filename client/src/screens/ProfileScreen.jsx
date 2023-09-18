@@ -1,51 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { Accordion, Card, Button } from 'react-bootstrap';
-//import axios from 'axios';
+import React, { useEffect } from 'react';
+import { Container, Row, Col, Card, Accordion, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCurrentProfile } from '../actions/profile';
 
-const ProfileScreen = () => {
-  const [transactionHistory, setTransactionHistory] = useState([]);
+const ProfileDashboard = ({ getCurrentProfile, auth, profile: { loading, profile } }) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, []);
 
-  /*useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const res = await axios.get('/api/profile/me');
-        const profile = res.data;
-        setTransactionHistory(profile.transactionHistory);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
-    fetchProfileData();
-  }, []);*/
+  const { transactionHistory, user: { firstName, coinBalance, email } } = profile;
 
   return (
-    <div>
-      <h2>Profile Dashboard</h2>
-      <h3>Transaction History</h3>
-      <Accordion>
-        {transactionHistory.map((transaction, index) => (
-          <Card key={index}>
-            <Card.Header>
-              <Accordion.Toggle as={Button} variant="link" eventKey={index.toString()}>
-                Transaction {index + 1}
-              </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey={index.toString()}>
-              <Card.Body>
-                <p>Type: {transaction.type}</p>
-                <p>Amount: {transaction.amount}</p>
-                <p>Reason: {transaction.reason}</p>
-                <p>Sender ID: {transaction.senderId}</p>
-                <p>Receiver ID: {transaction.receiverId}</p>
-                <p>Timestamp: {transaction.timestamp}</p>
-              </Card.Body>
-            </Accordion.Collapse>
+    <Container>
+      <Row className="mt-4">
+        <Col md={6} className="mx-auto">
+          <Card className="text-center profile-card">
+            <Card.Body>
+              <Card.Title className="welcome-title">
+                Welcome, {firstName}!
+              </Card.Title>
+              <Card.Text className="balance-text">Your Coin Balance</Card.Text>
+              <h2 className="display-4 coin-balance">{coinBalance}</h2>
+              <Card.Text className="email-text">Email: {email}</Card.Text>
+            </Card.Body>
           </Card>
-        ))}
-      </Accordion>
-    </div>
+        </Col>
+      </Row>
+      <Row className="mt-4">
+        <Col md={8} className="mx-auto">
+          <h3 className="transaction-heading">Transaction History</h3>
+          <Accordion>
+            {transactionHistory.map((transaction, index) => (
+              <Accordion.Item key={index} eventKey={index.toString()}>
+                <Accordion.Header>
+                  <Button variant="outline-primary" className="transaction-button">
+                    Transaction {index + 1}
+                  </Button>
+                </Accordion.Header>
+                <Accordion.Body>
+                  <div className="transaction-details">
+                    <p className="transaction-info">Type: {transaction.type}</p>
+                    <p className="transaction-info">Amount: {transaction.amount}</p>
+                    <p className="transaction-info">Reason: {transaction.reason}</p>
+                    <p className="transaction-info">Sender: {transaction.senderId}</p>
+                    <p className="transaction-info">Receiver: {transaction.receiverId}</p>
+                    <p className="transaction-info">Timestamp: {transaction.timestamp}</p>
+                  </div>
+                </Accordion.Body>
+              </Accordion.Item>
+            ))}
+          </Accordion>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
-export default ProfileScreen;
+ProfileDashboard.propTypes = {
+  getCurrentProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { getCurrentProfile })(ProfileDashboard);
+
