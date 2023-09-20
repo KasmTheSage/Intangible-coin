@@ -15,6 +15,9 @@ import LoginScreen from './screens/LoginScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
 import QuestionnaireScreen from './screens/QuestionnaireScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import TransferScreen from './screens/TransferScreen';
+import ContactScreen from './screens/ContactScreen';
+import NewContactScreen from './screens/NewContactScreen';
 
 const router = createBrowserRouter (
   createRoutesFromElements (
@@ -25,6 +28,9 @@ const router = createBrowserRouter (
       <Route element={<PrivateRoutes />}>
         <Route path="/questionnaire" element={<QuestionnaireScreen />} />
         <Route path="/profile" exact element={<ProfileScreen />} />
+        <Route path="/transfer" element={<TransferScreen />} />
+        <Route path="/contact-list" element={<ContactScreen />} />
+        <Route path="/new-contact" element={<NewContactScreen />} />
       </Route>
     </Route>
   )

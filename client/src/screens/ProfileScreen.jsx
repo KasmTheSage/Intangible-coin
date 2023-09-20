@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, Accordion, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../actions/profile';
@@ -11,6 +12,13 @@ const ProfileDashboard = ({ getCurrentProfile, auth, profile: { loading, profile
 
   if (loading) {
     return <h1>Loading...</h1>;
+  } else if (!profile) {
+    return <Container>
+      <h1>No profile found</h1>
+      <LinkContainer to="/questionnaire">
+        <Button variant="primary">Create Profile</Button>
+      </LinkContainer>
+    </Container>;
   }
 
   const { transactionHistory, user: { firstName, coinBalance, email } } = profile;
@@ -39,7 +47,7 @@ const ProfileDashboard = ({ getCurrentProfile, auth, profile: { loading, profile
               <Accordion.Item key={index} eventKey={index.toString()}>
                 <Accordion.Header>
                   <Button variant="outline-primary" className="transaction-button">
-                    Transaction {index + 1}
+                    {transaction.senderName} sent {transaction.receiverName} {transaction.type} {transaction.amount} coins
                   </Button>
                 </Accordion.Header>
                 <Accordion.Body>
@@ -47,8 +55,8 @@ const ProfileDashboard = ({ getCurrentProfile, auth, profile: { loading, profile
                     <p className="transaction-info">Type: {transaction.type}</p>
                     <p className="transaction-info">Amount: {transaction.amount}</p>
                     <p className="transaction-info">Reason: {transaction.reason}</p>
-                    <p className="transaction-info">Sender: {transaction.senderId}</p>
-                    <p className="transaction-info">Receiver: {transaction.receiverId}</p>
+                    <p className="transaction-info">Sender: {transaction.senderName}</p>
+                    <p className="transaction-info">Receiver: {transaction.receiverName}</p>
                     <p className="transaction-info">Timestamp: {transaction.timestamp}</p>
                   </div>
                 </Accordion.Body>

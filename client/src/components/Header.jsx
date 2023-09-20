@@ -18,7 +18,7 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Nav className="ms-auto">
           <Nav.Link href="/about">About</Nav.Link>
           <NavDropdown title="Account">
-            <LinkContainer to="/edit-account">
+            <LinkContainer to="/questionnaire">
             <NavDropdown.Item>Edit Account Information</NavDropdown.Item>
             </LinkContainer>
             <LinkContainer to="/transfer">

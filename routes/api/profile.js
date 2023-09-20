@@ -108,14 +108,14 @@ router.get ('/', async (req, res) => {
   }
 });
 
-// @route   GET api/profile/user/:user_id
-// @desc    Get profile by user ID
+// @route   GET api/profile/user/:email
+// @desc    Get profile by user email
 // @access  Public
-router.get ('/user/:user_id', async (req, res) => {
+router.get ('/user/:user_email', async (req, res) => {
   try {
     const profile = await Profile.findOne ({
-      user: req.params.user_id,
-    }).populate ('user', ['firstName', 'middleName', 'lastName']);
+      user: req.params.user_email,
+    }).populate ('user', ['firstName', 'middleName', 'lastName', 'email']);
 
     console.log (profile.user.firstName);
 
@@ -152,7 +152,7 @@ router.delete ('/', auth, async (req, res) => {
 // @route   PUT api/profile/contacts
 // @desc    Update user contact list
 // @access  Private
-router.put ('/contacts', auth, async (req, res) => {
+router.post ('/contacts', auth, async (req, res) => {
   const {firstName, middleName, lastName, email, phoneNumber} = req.body;
 
   const newContact = {
@@ -172,7 +172,7 @@ router.put ('/contacts', auth, async (req, res) => {
 
     res.json ({
       message: 'Contact saved.',
-      data: profile.contacts,
+      data: profile,
     });
   } catch (err) {
     res.status (500).json ({message: err.message});
@@ -185,11 +185,13 @@ router.put ('/contacts', auth, async (req, res) => {
 router.post ('/transfer/:user_id', auth, async (req, res) => {
   const {type, amount, reason, anonymous} = req.body;
 
-  if (type == null || amount == null || reason == null) {
+  console.log(req.body);
+
+  /*if (type == null || amount == null || reason == null) {
     return res
       .status (400)
       .json ({message: 'Please fill out all required fields.'});
-  }
+  }*/
 
   let vibe = "";
 
@@ -266,7 +268,7 @@ router.post ('/transfer/:user_id', auth, async (req, res) => {
 
     res.status (200).json ({
       success: true,
-      data: transferObject,
+      data: sender,
     });
   } catch (err) {
     res.status (500).json ({message: err.message});

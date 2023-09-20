@@ -160,3 +160,48 @@
     }
 
     /* ProfileScreen */
+
+    /* ContactScreen */
+
+    .contact-screen-title {
+      font-size: 2.5rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .contact-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .contact-name {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .contact-details {
+      font-size: 1.2rem;
+      color: #888;
+      margin-bottom: 0.5rem;
+    }
+    
+    .send-coins-btn {
+      background-color: #007bff;
+      border: none;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    
+    .send-coins-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* ContactScreen */
