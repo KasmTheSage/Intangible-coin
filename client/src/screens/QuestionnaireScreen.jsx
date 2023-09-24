@@ -29,18 +29,16 @@ const Questionnaire = ({ createProfile }) => {
         } 
       }); 
   }; 
+
   const onSubmit = async (e) => { 
     e.preventDefault(); 
-    try { 
-      createProfile(formData); 
+      createProfile(formData);
       navigate('/profile'); 
-    } catch (err) { 
-      console.log(err.response.data); 
-    } 
   }; 
+
   return ( 
     <div className="questionnaire-container"> 
-      <h2 className="questionnaire-heading">Questionnaire</h2> 
+      <h2 className="questionnaire-heading"> Required Questionnaire</h2> 
       <form className="questionnaire-form" onSubmit={(e) => onSubmit(e)}> 
         <div className="form-group"> 
           <label className="form-label"> 

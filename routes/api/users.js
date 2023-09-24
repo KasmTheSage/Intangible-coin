@@ -62,4 +62,22 @@ router.post("/", async (req, res) => {
     }
 });
 
+// @route   GET api/users
+// @desc    Find user
+// @access  Private
+
+router.get("/:email", async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.params.email });
+
+        if(!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 module.exports = router;

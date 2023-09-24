@@ -27,7 +27,8 @@ export const loadUser = () => async dispatch => {
         });
     } catch (err) {
         const errmessage = err.response.data.message;
-        dispatch(setAlert(errmessage, 'danger'));
+        console.log(errmessage);
+        //dispatch(setAlert(errmessage, 'danger'));
 
         dispatch({
             type: AUTH_ERROR

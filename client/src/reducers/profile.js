@@ -12,8 +12,6 @@ export default function(state = initialState, action){
     switch(type){
         case 'GET_PROFILE':
         case 'UPDATE_PROFILE':
-        case 'SAVE_CONTACT':
-        case 'TRANSFER_COIN':
             return {
                 ...state,
                 profile: payload,
@@ -21,6 +19,8 @@ export default function(state = initialState, action){
             };
         case 'GET_PROFILES':
         case 'FIND_PROFILE':
+        case 'SAVE_CONTACT':
+        case 'TRANSFER_COIN':
             return {
                 ...state,
                 profiles: payload,

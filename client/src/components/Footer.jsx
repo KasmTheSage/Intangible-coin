@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import logo from '../assets/logo.png';
 
 const Footer = () => {
     const year = new Date().getFullYear();
@@ -9,7 +10,7 @@ const Footer = () => {
         <Container>
             <Row>
                 <Col className='text-center py-3'>
-                    <p>Intangible Coin &copy; {year} All Rights Reserved.</p>
+                    <p><img src={logo} alt="Intangible Coin" className="logo-image"/> {year} All Rights Reserved.</p>
                 </Col>
             </Row>
         </Container>

@@ -79,10 +79,7 @@ router.post ('/', auth, async (req, res) => {
 
     await profile.save ();
 
-    res.status (201).json ({
-      success: true,
-      data: profile,
-    });
+    res.status (201).json (profile);
   } catch (err) {
     res.status (500).json ({message: err.message});
   }
@@ -153,14 +150,13 @@ router.delete ('/', auth, async (req, res) => {
 // @desc    Update user contact list
 // @access  Private
 router.post ('/contacts', auth, async (req, res) => {
-  const {firstName, middleName, lastName, email, phoneNumber} = req.body;
+  const { firstName, middleName, lastName, email } = req.body;
 
   const newContact = {
     firstName: firstName,
     middleName: middleName,
     lastName: lastName,
     email: email,
-    phoneNumber: phoneNumber,
   };
 
   try {
@@ -170,10 +166,7 @@ router.post ('/contacts', auth, async (req, res) => {
 
     await profile.save ();
 
-    res.json ({
-      message: 'Contact saved.',
-      data: profile,
-    });
+    res.json (profile);
   } catch (err) {
     res.status (500).json ({message: err.message});
   }
@@ -209,7 +202,7 @@ router.post ('/transfer/:user_id', auth, async (req, res) => {
     senderName: 'anonymous',
     receiverId: req.params.user_id,
     receiverName: '',
-    timestamp: Date.now (),
+    timestamp: Date (),
   };
 
   try {
@@ -222,7 +215,7 @@ router.post ('/transfer/:user_id', auth, async (req, res) => {
       'coinBalance',
     ]);
 
-    const sender = await Profile.findOne ({
+    const profile = await Profile.findOne ({
       user: req.user.id,
     }).populate ('user', [
       'firstName',
@@ -253,23 +246,20 @@ router.post ('/transfer/:user_id', auth, async (req, res) => {
 
     if (anonymous == false) {
       transferObject.senderId = req.user.id;
-      transferObject.senderName = sender.user.firstName;
+      transferObject.senderName = profile.user.firstName;
     }
 
     transferObject.receiverName = receiver.user.firstName;
 
-    sender.transactionHistory.unshift (transferObject);
+    profile.transactionHistory.unshift (transferObject);
 
     receiver.transactionHistory.unshift (transferObject);
 
-    await sender.save ();
+    await profile.save ();
 
     await receiver.save ();
 
-    res.status (200).json ({
-      success: true,
-      data: sender,
-    });
+    res.status (200).json (profile);
   } catch (err) {
     res.status (500).json ({message: err.message});
   }

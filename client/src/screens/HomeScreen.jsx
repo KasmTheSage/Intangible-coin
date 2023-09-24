@@ -13,7 +13,7 @@ const HomeScreen = ({ isAuthenticated }) => {
      <div className='text-center'>
         <h1 className='display-4 mb-4'>Welcome to Intangible Coin</h1>
             <p className='lead'>
-                Experience the future of online relationships with Intangible Coin.
+                A new way to look at intangibles
             </p>
      </div>
       <Welcome />

@@ -38,6 +38,8 @@ export const createProfile = (formData, history, edit = false) => async dispatch
 
         const res = await axios.post('/api/profile', formData, config);
 
+        console.log(res.data);
+
         dispatch({
             type: GET_PROFILE,
             payload: res.data
@@ -62,7 +64,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
 };
 
 // Save contact
-export const saveContact = (formData) => async dispatch => {
+export const saveContact = (firstName, middleName, lastName, email) => async dispatch => {
     try{
         const config = {
             headers: {
@@ -70,7 +72,16 @@ export const saveContact = (formData) => async dispatch => {
             }
         };
 
-        const res = await axios.post('/api/profile/contacts', formData, config);
+        const input = {
+            firstName,
+            middleName,
+            lastName,
+            email
+        };
+
+        const body = JSON.stringify(input);
+
+        const res = await axios.post('/api/profile/contacts', body, config);
 
         dispatch({
             type: SAVE_CONTACT,
@@ -94,7 +105,7 @@ export const saveContact = (formData) => async dispatch => {
 // Find profile by user email
 export const findProfile = (email) => async dispatch => {
     try{
-        const res = await axios.get(`/api/profile/user/${email}`);
+        const res = await axios.get(`/api/users/${email}`);
 
         dispatch({
             type: FIND_PROFILE,
