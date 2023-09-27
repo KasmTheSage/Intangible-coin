@@ -1,92 +1,201 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { saveContact } from '../actions/profile';
-import { findProfile } from '../actions/profile';
-import { Modal, Form, Button, Card } from 'react-bootstrap';
+import React, { useState } from 'react'; 
+import PropTypes from 'prop-types'; 
+import { useNavigate } from 'react-router-dom'; 
+import { connect } from 'react-redux'; 
+import { saveContact } from '../actions/profile'; 
+import { Form, Button } from 'react-bootstrap'; 
 
-const NewContactScreen = ({ findProfile, saveContact, profile: { profiles, loading } }) => {
-  const [email, setEmail] = useState('');
-  const [showModal, setShowModal] = useState(false);
+const NewContactScreen = ({ saveContact }) => { 
+  const [formData, setFormData] = useState({ 
+    firstName: '', 
+    middleName: '', 
+    lastName: '', 
+    email: '', 
+    phoneNumber: '', 
+    type: { 
+      significantOther: false, 
+      intimateOther: false, 
+      family: false, 
+      friend: false, 
+      school: false, 
+      work: false, 
+      activeAcquaintance: false, 
+      passiveAcquaintance: false, 
+      other: false, 
+    }, 
+  }); 
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    findProfile(email);
-    setShowModal(true);
-  };
+  const { firstName, middleName, lastName, email, phoneNumber, type } = formData; 
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const handleChange = (e) => { 
+    const { name, value, type, checked } = e.target; 
+    const newValue = type === 'checkbox' ? checked : value; 
+    if (name.startsWith('type.')) { 
+      const typeField = name.substring(5); 
+      setFormData({ 
+        ...formData, 
+        type: { 
+          ...type, 
+          [typeField]: newValue, 
+        }, 
+      }); 
+    } else { 
+      setFormData({ ...formData, [name]: newValue }); 
+    } 
+  }; 
 
-  const handleSaveContact = () => {
-    const firstName = profiles.firstName;
-    const middleName = profiles.middleName;
-    const lastName = profiles.lastName;
-    const email = profiles.email;
+  const handleSubmit = (e) => { 
+    e.preventDefault(); 
+    saveContact(formData); 
+    navigate('/profile'); 
+  }; 
 
-    saveContact( firstName, middleName, lastName, email );
-    setShowModal(false);
-  };
+  return ( 
+    <div className="new-contact-container"> 
+      <h2 className="new-contact-heading">New Contact</h2> 
+      <Form onSubmit={handleSubmit} className="new-contact-form"> 
+        <Form.Group controlId="firstName"> 
+          <Form.Label>First Name</Form.Label> 
+          <Form.Control 
+            type="text" 
+            name="firstName" 
+            value={firstName} 
+            onChange={handleChange} 
+            required 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="middleName"> 
+          <Form.Label>Middle Name</Form.Label> 
+          <Form.Control 
+            type="text" 
+            name="middleName" 
+            value={middleName} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="lastName"> 
+          <Form.Label>Last Name</Form.Label> 
+          <Form.Control 
+            type="text" 
+            name="lastName" 
+            value={lastName} 
+            onChange={handleChange} 
+            required 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="email"> 
+          <Form.Label>Email</Form.Label> 
+          <Form.Control 
+            type="email" 
+            name="email" 
+            value={email} 
+            onChange={handleChange} 
+            required 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="phoneNumber"> 
+          <Form.Label>Phone Number</Form.Label> 
+          <Form.Control 
+            type="tel" 
+            name="phoneNumber" 
+            value={phoneNumber} 
+            onChange={handleChange} 
+            required 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="type.significantOther"> 
+          <Form.Check 
+            type="checkbox" 
+            label="Significant Other" 
+            name="type.significantOther" 
+            checked={type.significantOther} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="type.intimateOther"> 
+          <Form.Check 
+            type="checkbox" 
+            label="Intimate Other" 
+            name="type.intimateOther" 
+            checked={type.intimateOther} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="type.family"> 
+          <Form.Check 
+            type="checkbox" 
+            label="Family" 
+            name="type.family" 
+            checked={type.family} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="type.friend"> 
+          <Form.Check 
+            type="checkbox" 
+            label="Friend" 
+            name="type.friend" 
+            checked={type.friend} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="type.school"> 
+          <Form.Check 
+            type="checkbox" 
+            label="School" 
+            name="type.school" 
+            checked={type.school} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="type.work"> 
+          <Form.Check 
+            type="checkbox" 
+            label="Work" 
+            name="type.work" 
+            checked={type.work} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="type.activeAcquaintance"> 
+          <Form.Check 
+            type="checkbox" 
+            label="Active Acquaintance" 
+            name="type.activeAcquaintance" 
+            checked={type.activeAcquaintance} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="type.passiveAcquaintance"> 
+          <Form.Check 
+            type="checkbox" 
+            label="Passive Acquaintance" 
+            name="type.passiveAcquaintance" 
+            checked={type.passiveAcquaintance} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Form.Group controlId="type.other"> 
+          <Form.Check 
+            type="checkbox" 
+            label="Other" 
+            name="type.other" 
+            checked={type.other} 
+            onChange={handleChange} 
+          /> 
+        </Form.Group> 
+        <Button variant="primary" type="submit" className="save-contact-button"> 
+          Save Contact 
+        </Button> 
+      </Form> 
+    </div> 
+  ); 
+}; 
 
-  return (
-    <div className="new-contact-container">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" value={email} onChange={handleEmailChange} required />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Find Profile
-        </Button>
-      </Form>
+NewContactScreen.propTypes = { 
+  saveContact: PropTypes.func.isRequired, 
+}; 
 
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Profile Information</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            profiles && (
-              <Card>
-                <Card.Body>
-                  <Card.Title>{profiles.firstName}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    {profiles.middleName} {profiles.lastName}
-                  </Card.Subtitle>
-                  <Card.Text>{profiles.email}</Card.Text>
-                </Card.Body>
-              </Card>
-            )
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSaveContact}>
-            Save Contact
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  );
-};
-
-NewContactScreen.propTypes = {
-  saveContact: PropTypes.func.isRequired,
-  findProfile: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
-};
-
-const mapStateToProps = (state) => ({
-  profile: state.profile,
-});
-
-export default connect(mapStateToProps, { saveContact, findProfile })(NewContactScreen);
+export default connect(null, { saveContact })(NewContactScreen);

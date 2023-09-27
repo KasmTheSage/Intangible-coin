@@ -19,6 +19,7 @@ import ContactScreen from './screens/ContactScreen';
 import NewContactScreen from './screens/NewContactScreen';
 import HelpScreen from './screens/HelpScreen';
 import AboutScreen from './screens/AboutScreen';
+import OptionalScreen from './screens/OptionalScreen';
 
 const router = createBrowserRouter (
   createRoutesFromElements (
@@ -30,6 +31,7 @@ const router = createBrowserRouter (
       <Route path="/about" element={<AboutScreen />} />
       <Route element={<PrivateRoutes />}>
         <Route path="/questionnaire" element={<QuestionnaireScreen />} />
+        <Route path="/optional" element={<OptionalScreen />} />
         <Route path="/profile" exact element={<ProfileScreen />} />
         <Route path="/contact-list" element={<ContactScreen />} />
         <Route path="/new-contact" element={<NewContactScreen />} />

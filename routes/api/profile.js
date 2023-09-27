@@ -149,26 +149,60 @@ router.delete ('/', auth, async (req, res) => {
 // @route   PUT api/profile/contacts
 // @desc    Update user contact list
 // @access  Private
-router.post ('/contacts', auth, async (req, res) => {
-  const { firstName, middleName, lastName, email } = req.body;
+router.post('/contacts', auth, async (req, res) => {
+  const {
+    firstName,
+    middleName,
+    lastName,
+    email,
+    phoneNumber,
+    type: {
+      significantOther,
+      intimateOther,
+      family,
+      friend,
+      school,
+      work,
+      activeAcquaintance,
+      passiveAcquaintance,
+      other
+    }
+  } = req.body;
 
   const newContact = {
     firstName: firstName,
     middleName: middleName,
     lastName: lastName,
     email: email,
+    phoneNumber: phoneNumber,
+    type: ''
   };
 
+  const typeOptions = [
+    { value: significantOther, label: 'significantOther' },
+    { value: intimateOther, label: 'intimateOther' },
+    { value: family, label: 'family' },
+    { value: friend, label: 'friend' },
+    { value: school, label: 'school' },
+    { value: work, label: 'work' },
+    { value: activeAcquaintance, label: 'activeAcquaintance' },
+    { value: passiveAcquaintance, label: 'passiveAcquaintance' },
+    { value: other, label: 'other' }
+  ];
+
+  const selectedTypes = typeOptions
+    .filter(option => option.value)
+    .map(option => option.label.charAt(0).toUpperCase() + option.label.slice(1));
+
+  newContact.type = selectedTypes.join(' ');
+
   try {
-    const profile = await Profile.findOne ({user: req.user.id});
-
-    profile.contacts.unshift (newContact);
-
-    await profile.save ();
-
-    res.json (profile);
+    const profile = await Profile.findOne({ user: req.user.id });
+    profile.contacts.unshift(newContact);
+    await profile.save();
+    res.json(profile);
   } catch (err) {
-    res.status (500).json ({message: err.message});
+    res.status(500).json({ message: err.message });
   }
 });
 

@@ -28,7 +28,7 @@ export const getCurrentProfile = () => async dispatch => {
 }
 
 // Create or update profile
-export const createProfile = (formData, history, edit = false) => async dispatch => {
+export const createProfile = (formData) => async dispatch => {
     try{
         const config = {
             headers: {
@@ -38,18 +38,10 @@ export const createProfile = (formData, history, edit = false) => async dispatch
 
         const res = await axios.post('/api/profile', formData, config);
 
-        console.log(res.data);
-
         dispatch({
             type: GET_PROFILE,
             payload: res.data
         });
-
-        dispatch(setAlert(edit ? 'Profile updated' : 'Profile created', 'success'));
-
-        if(!edit){
-            history.push('/profile');
-        }
     }
     catch(err){
         const errmessage = err.response.data.message;
@@ -64,7 +56,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
 };
 
 // Save contact
-export const saveContact = (firstName, middleName, lastName, email) => async dispatch => {
+export const saveContact = (formData) => async dispatch => {
     try{
         const config = {
             headers: {
@@ -72,16 +64,7 @@ export const saveContact = (firstName, middleName, lastName, email) => async dis
             }
         };
 
-        const input = {
-            firstName,
-            middleName,
-            lastName,
-            email
-        };
-
-        const body = JSON.stringify(input);
-
-        const res = await axios.post('/api/profile/contacts', body, config);
+        const res = await axios.post('/api/profile/contacts', formData, config);
 
         dispatch({
             type: SAVE_CONTACT,
