@@ -112,8 +112,6 @@ router.get ('/user/:user_email', async (req, res) => {
       user: req.params.user_email,
     }).populate ('user', ['firstName', 'middleName', 'lastName', 'email']);
 
-    console.log (profile.user.firstName);
-
     if (!profile)
       return res
         .status (400)
@@ -181,8 +179,6 @@ router.post('/contacts', auth, async (req, res) => {
 // @access  Private
 router.post ('/transfer/:user_id', auth, async (req, res) => {
   const {type, amount, reason, anonymous} = req.body;
-
-  console.log(req.body);
 
   /*if (type == null || amount == null || reason == null) {
     return res
