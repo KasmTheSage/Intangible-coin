@@ -58,8 +58,6 @@ router.post ('/', auth, async (req, res) => {
   profileFields.visibleInfo.dataForage = dataForage;
   profileFields.visibleInfo.experimental = experimental;
 
-  console.log (profileFields);
-
   try {
     let profile = await Profile.findOne ({user: req.user.id});
 
@@ -156,17 +154,7 @@ router.post('/contacts', auth, async (req, res) => {
     lastName,
     email,
     phoneNumber,
-    type: {
-      significantOther,
-      intimateOther,
-      family,
-      friend,
-      school,
-      work,
-      activeAcquaintance,
-      passiveAcquaintance,
-      other
-    }
+    type
   } = req.body;
 
   const newContact = {
@@ -175,26 +163,8 @@ router.post('/contacts', auth, async (req, res) => {
     lastName: lastName,
     email: email,
     phoneNumber: phoneNumber,
-    type: ''
+    type: type
   };
-
-  const typeOptions = [
-    { value: significantOther, label: 'significantOther' },
-    { value: intimateOther, label: 'intimateOther' },
-    { value: family, label: 'family' },
-    { value: friend, label: 'friend' },
-    { value: school, label: 'school' },
-    { value: work, label: 'work' },
-    { value: activeAcquaintance, label: 'activeAcquaintance' },
-    { value: passiveAcquaintance, label: 'passiveAcquaintance' },
-    { value: other, label: 'other' }
-  ];
-
-  const selectedTypes = typeOptions
-    .filter(option => option.value)
-    .map(option => option.label.charAt(0).toUpperCase() + option.label.slice(1));
-
-  newContact.type = selectedTypes.join(' ');
 
   try {
     const profile = await Profile.findOne({ user: req.user.id });

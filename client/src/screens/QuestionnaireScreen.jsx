@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile } from '../actions/profile';
+import { Form, Button } from 'react-bootstrap';
 
 const Questionnaire = ({ createProfile, profile: { profile, loading } }) => {
   const [formData, setFormData] = useState({
@@ -21,22 +22,22 @@ const Questionnaire = ({ createProfile, profile: { profile, loading } }) => {
 
   const onChange = (e) => {
     const { name, checked } = e.target;
-    setFormData({
-      ...formData,
+    setFormData(prevState => ({
+      ...prevState,
       [name]: checked,
       visibleInfo: {
-        ...visibleInfo,
+        ...prevState.visibleInfo,
         [name]: checked
       }
-    });
+    }));
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
     createProfile(formData);
-    if (!loading && profile && !profile.visibleInfo.experimental) {
+    if (!loading && profile && profile.visibleInfo.experimental) {
       navigate('/optional');
-    } else if (!loading && profile && profile.visibleInfo.experimental) {
+    } else if (!loading && profile && !profile.visibleInfo.experimental) {
       navigate('/profile');
     }
   };
@@ -44,103 +45,88 @@ const Questionnaire = ({ createProfile, profile: { profile, loading } }) => {
   return (
     <div className="questionnaire-container">
       <h2 className="questionnaire-heading">Required Questionnaire</h2>
-      <form className="questionnaire-form" onSubmit={(e) => onSubmit(e)}>
-        <div className="form-group">
-          <label className="form-label">
-            Check here if you are comfortable offering as well as accepting negative feedback.
-          </label>
-          <input
-            className="form-input"
+      <Form onSubmit={onSubmit} className="questionnaire-form">
+        <Form.Group controlId="feedback">
+          <Form.Check
+            className='checkbox'
             type="checkbox"
+            label="Check here if you are comfortable offering as well as accepting negative feedback."
             name="feedback"
             checked={feedback}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
-        </div>
-        <div className="form-group">
-          <label className="form-label">
-            What information about yourself are you comfortable sharing with others?
-          </label>
+        </Form.Group>
+        <Form.Group controlId="visibleInfo" className="visibleInfo-group">
+          <Form.Label className='info-heading'>What information about yourself are you comfortable sharing with others?</Form.Label>
           <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="name"
-                checked={visibleInfo.name}
-                onChange={(e) => onChange(e)}
-              />
-              Name
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="dob"
-                checked={visibleInfo.dob}
-                onChange={(e) => onChange(e)}
-              />
-              Date of birth
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="totalBalance"
-                checked={visibleInfo.totalBalance}
-                onChange={(e) => onChange(e)}
-              />
-              Total coin balance
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="activityHistory"
-                checked={visibleInfo.activityHistory}
-                onChange={(e) => onChange(e)}
-              />
-              History of activity
-            </label>
+            <Form.Check
+              className='checkbox'
+              type="checkbox"
+              label="Name"
+              name="name"
+              checked={visibleInfo.name}
+              onChange={onChange}
+            />
+            <Form.Check
+              className='checkbox'
+              type="checkbox"
+              label="Date of Birth"
+              name="dob"
+              checked={visibleInfo.dob}
+              onChange={onChange}
+            />
+            <Form.Check
+              className='checkbox'
+              type="checkbox"
+              label="Total Coin Balance"
+              name="totalBalance"
+              checked={visibleInfo.totalBalance}
+              onChange={onChange}
+            />
+            <Form.Check
+              className='checkbox'
+              type="checkbox"
+              label="History of Activity"
+              name="activityHistory"
+              checked={visibleInfo.activityHistory}
+              onChange={onChange}
+            />
           </div>
-        </div>
-        <div className="form-group">
-          <label className="form-label">
-            Is it ok for us to use your data, generically stripped of your identity,
-            strictly for internal research purposes, aimed at improving everyone's user
-            experience?
-          </label>
-          <input
-            className="form-input"
+        </Form.Group>
+        <Form.Group controlId="dataForage">
+          <Form.Check
+            className='checkbox'
             type="checkbox"
+            label="Is it ok for us to use your data, generically stripped of your identity, strictly for internal research purposes, aimed at improving everyone's user experience?"
             name="dataForage"
             checked={visibleInfo.dataForage}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
-        </div>
-        <div className="form-group">
-          <label className="form-label">
-            Would you like your account to include new features and functionalities under
-            development?
-          </label>
-          <input
-            className="form-input"
+        </Form.Group>
+        <Form.Group controlId="experimental">
+          <Form.Check
+            className='checkbox'
             type="checkbox"
+            label="Would you like your account to include new features and functionalities under development?"
             name="experimental"
             checked={visibleInfo.experimental}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
-        </div>
-        <button className="submit-button" type="submit">
+        </Form.Group>
+        <Button variant="primary" type="submit" className="submit-button">
           Submit
-        </button>
-      </form>
+        </Button>
+      </Form>
     </div>
   );
 };
 
 Questionnaire.propTypes = {
-  createProfile: PropTypes.func.isRequired
+  createProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  profile: state.profile
+  profile: state.profile,
 });
 
 export default connect(mapStateToProps, { createProfile })(Questionnaire);

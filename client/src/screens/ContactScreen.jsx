@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {findProfile} from '../actions/profile';
 import {transferCoin} from '../actions/profile';
 import {setAlert} from '../actions/alert';
@@ -11,7 +12,7 @@ const ContactScreen = ({
   setAlert,
   transferCoin,
   findProfile,
-  profile: {profiles, profile: {contacts, feedback}},
+  profile: {profiles, profile: {contacts, feedback, loading}},
 }) => {
   const [showModal, setShowModal] = useState (false);
   const [selectedContact, setSelectedContact] = useState (null);
@@ -39,6 +40,8 @@ const ContactScreen = ({
     setFormData ({...formData, [name]: newValue});
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = e => {
     e.preventDefault ();
     if (!profiles) {
@@ -52,6 +55,9 @@ const ContactScreen = ({
     const id = _id;
     transferCoin (id, type, amount, reason, anonymous);
     setShowModal (false);
+    if (!loading && profiles) {
+      navigate ('/profile');
+    }
   };
 
   const yesFeeback = (
@@ -116,6 +122,8 @@ const ContactScreen = ({
                 <Form.Control
                   type="number"
                   name="amount"
+                  min={0}
+                  max={2}
                   value={formData.amount}
                   onChange={handleChange}
                   required
@@ -128,7 +136,6 @@ const ContactScreen = ({
                   name="reason"
                   value={formData.reason}
                   onChange={handleChange}
-                  required
                 />
               </Form.Group>
               <Form.Group controlId="anonymous">
@@ -156,6 +163,7 @@ const ContactScreen = ({
 };
 
 ContactScreen.propTypes = {
+  loading: PropTypes.bool.isRequired,
   feedback: PropTypes.bool.isRequired,
   setAlert: PropTypes.func.isRequired,
   transferCoin: PropTypes.func.isRequired,
