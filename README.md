@@ -1,3 +1,4 @@
 # Intangible-coin
 
+## Intangible coin is a project meant to make the intangible things in our relationships, connections, and interactions a litte more tangible. Users can create an account and send or recieve coins along with optional feedback. Once a user registers their account, their initial Intangible coin balance will be based on how many hours they have lived from their date of birth to the moment their account is registered. Users will also automatically accrue one coin every hour for the rest of their lives. Users can also have a list of contacts, and their transaction history will be saved to their accounts. The technologies used for the backend are Node.js, Express.js, Mongoose, and MongoDB. The front end uses React, React Redux, React Bootstrap, and React Router. You can visit the site hosted on heroku here: http://www.intangible.zone.
 
