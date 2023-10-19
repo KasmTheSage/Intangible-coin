@@ -97,7 +97,7 @@ const Questionnaire = ({ createProfile, profile: { profile, loading } }) => {
           <Form.Check
             className='checkbox'
             type="checkbox"
-            label="Check here if it is ok for us to use your data, generically stripped of your identity, strictly for internal research purposes, aimed at improving everyone's user experience"
+            label="Check here if it is ok for us to use your data, generically stripped of your identity, strictly for internal research purposes, aimed at improving everyone's user experience."
             name="dataForage"
             checked={visibleInfo.dataForage}
             onChange={onChange}
@@ -107,7 +107,7 @@ const Questionnaire = ({ createProfile, profile: { profile, loading } }) => {
           <Form.Check
             className='checkbox'
             type="checkbox"
-            label="Check here if you would like your account to include new features and functionalities under development"
+            label="Check here if you would like your account to include new features and functionalities under development."
             name="experimental"
             checked={visibleInfo.experimental}
             onChange={onChange}
