@@ -18,6 +18,7 @@ const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
           <Nav.Link href="/about">About</Nav.Link>
+          <Nav.Link href="/help">Help</Nav.Link>
           <NavDropdown title="Account">
             <LinkContainer to="/questionnaire">
             <NavDropdown.Item>Edit Account Information</NavDropdown.Item>

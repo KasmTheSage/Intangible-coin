@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
         const timeDifferenceInMilliseconds = now - birthDate;
 
         // Calculate the number of hours lived
-        const hoursLived = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60));
+        const hoursLived = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60 * 168));
 
         // Add the hours lived to the coin value
         user.coinBalance += hoursLived;
